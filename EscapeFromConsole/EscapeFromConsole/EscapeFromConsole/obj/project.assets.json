@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\GitFork\\EscapeFromConsole\\EscapeFromConsole\\EscapeFromConsole\\EscapeFromConsole.csproj",
+      "projectUniqueName": "E:\\GitFork\\EscapeRoom\\EscapeFromConsole\\EscapeFromConsole\\EscapeFromConsole\\EscapeFromConsole.csproj",
       "projectName": "EscapeFromConsole",
-      "projectPath": "E:\\GitFork\\EscapeFromConsole\\EscapeFromConsole\\EscapeFromConsole\\EscapeFromConsole.csproj",
+      "projectPath": "E:\\GitFork\\EscapeRoom\\EscapeFromConsole\\EscapeFromConsole\\EscapeFromConsole\\EscapeFromConsole.csproj",
       "packagesPath": "C:\\Users\\felix\\.nuget\\packages\\",
-      "outputPath": "E:\\GitFork\\EscapeFromConsole\\EscapeFromConsole\\EscapeFromConsole\\obj\\",
+      "outputPath": "E:\\GitFork\\EscapeRoom\\EscapeFromConsole\\EscapeFromConsole\\EscapeFromConsole\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\felix\\AppData\\Roaming\\NuGet\\NuGet.Config",

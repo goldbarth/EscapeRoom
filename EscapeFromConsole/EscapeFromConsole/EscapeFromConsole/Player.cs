@@ -54,26 +54,22 @@ namespace EscapeFromConsole
                     switch (inputKey)
                     {
                         case ConsoleKey.UpArrow:
-                        if (1 < Y)
-                            Y--;
+                        if (1 < Y) Y--;
                         else
                             ParallelSound();
                         break;
                         case ConsoleKey.DownArrow:
-                        if (Y < room.height)
-                            Y++;
+                        if (Y < room.height) Y++;
                         else
                             ParallelSound();
                         break;
                         case ConsoleKey.LeftArrow:
-                        if (1 < X)
-                            X--;
+                        if (1 < X) X--;
                         else
                             ParallelSound();
                         break;
                         case ConsoleKey.RightArrow:
-                        if (X < room.width)
-                            X++;
+                        if (X < room.width) X++;
                         else
                             ParallelSound();
                         break;
