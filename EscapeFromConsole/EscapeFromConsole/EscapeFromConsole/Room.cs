@@ -1,12 +1,10 @@
-﻿
-namespace EscapeFromConsole
+﻿namespace EscapeFromConsole
 {
-    internal class Room
+    class Room
     {
         public int width;
         public int height;
-
-        int[,] room;
+        readonly int[,] room;
         
         public Room(int width, int height)
         {

@@ -1,19 +1,17 @@
-﻿
-namespace EscapeFromConsole
+﻿namespace EscapeFromConsole
 {
-    internal class Player
+    class Player
     {
-        private int X { get; set; }
-        private int Y { get; set; }
+        public int X { get; private set; }
+        public int Y { get; private set; }
 
-        char floor = ' ';
+        public bool KeyIsLooted { get; private set; }
 
-        bool canMove = true;
-        bool keyIsLooted = false;
+        readonly char floor = ' ';
 
-        Room room;
-        Key key;
-        Exit exit;
+        readonly Room room;
+        readonly Key key;
+        readonly Exit exit;
 
         public Player(Room room, Key key, Exit exit)
         {
@@ -39,52 +37,45 @@ namespace EscapeFromConsole
                 Console.Write(playerChar);
             }
         }
-        
+
         public void Move(char playerChar)
-        {  
-            while (canMove)
+        {
+            if (Console.KeyAvailable)
             {
-                if (Console.KeyAvailable)
+                ConsoleKey inputKey = Console.ReadKey().Key;
+
+                Position(X, Y, floor); // Overwrites the last player position
+
+                switch (inputKey)
                 {
-                    ConsoleKey inputKey = Console.ReadKey().Key;
-
-                    // Overwrites the last position
-                    Position(X, Y, floor);
-
-                    switch (inputKey)
-                    {
-                        case ConsoleKey.UpArrow:
-                        if (1 < Y) Y--;
-                        else
-                            ParallelSound();
-                        break;
-                        case ConsoleKey.DownArrow:
-                        if (Y < room.height) Y++;
-                        else
-                            ParallelSound();
-                        break;
-                        case ConsoleKey.LeftArrow:
-                        if (1 < X) X--;
-                        else
-                            ParallelSound();
-                        break;
-                        case ConsoleKey.RightArrow:
-                        if (X < room.width) X++;
-                        else
-                            ParallelSound();
-                        break;
-                        default:
-                            // prevent printing any other letter/symbol next to the player char if pressed
-                            Console.Write(floor);
-                        break;
-                    }      
+                    case ConsoleKey.UpArrow:
+                    if (1 < Y) Y--;
+                    else
+                        ParallelSound();
+                    break;
+                    case ConsoleKey.DownArrow:
+                    if (Y < room.height) Y++;
+                    else
+                        ParallelSound();
+                    break;
+                    case ConsoleKey.LeftArrow:
+                    if (1 < X) X--;
+                    else
+                        ParallelSound();
+                    break;
+                    case ConsoleKey.RightArrow:
+                    if (X < room.width) X++;
+                    else
+                        ParallelSound();
+                    break;
+                    default:
+                    // prevent printing any other letter/symbol next to the player char if pressed
+                    Console.Write(floor);
+                    break;
                 }
-
-                Position(X, Y, playerChar);
-
-                OpenExit();
-                WinScreen();
             }
+
+            Position(X, Y, playerChar); // draws the new player position
         }
 
         private static void Position(int x, int y, char tile)
@@ -95,54 +86,32 @@ namespace EscapeFromConsole
                 Console.WriteLine(tile);
             }
         }
+
         private static void ParallelSound()
         {
             Thread thread = new Thread(() => Console.Beep(120, 200));
             thread.Start();
         }
-        private void WinScreen()
-        {
-            if (X + 1 == exit.X && Y == exit.Y && keyIsLooted == true)
-            {
-                Menu menu = new Menu();
-                canMove = false;
-                for (int i = 0; i < 3; i++)
-                {
-                    Console.Beep(600, 350);
-                }
-                Console.SetCursorPosition(X, Y);
-                Console.Write("...");
-                Console.Write('Ð');
-                Console.ForegroundColor = ConsoleColor.Gray;
-                Console.SetCursorPosition((room.width / 2) - 12, (room.height / 2) - 5);
-                Console.WriteLine("YOU ESCAPED THE DARKNESS.");
-                Console.SetCursorPosition((room.width / 2) - 12, (room.height / 2) - 4);
-                Console.WriteLine("  NOW YOU´LL ENTER THE");
-                Console.SetCursorPosition((room.width / 2) - 12, (room.height / 2) - 3);
-                Console.WriteLine("        UNKNOWN.");
-                Console.ReadKey();
-                Console.ReadKey();
-                Console.Clear();
-                menu.Outro();
-            }
-        }
+        
 
         #region Bools
 
-        private void OpenExit()
+        public bool OpenExit()
         {
-            if (KeyTrigger() && keyIsLooted == true)
+            if (KeyTrigger() && KeyIsLooted == true)
             {
                 Console.Beep(450, 200);
                 Position(exit.X, exit.Y, floor);
+                return true;
             }
+            return false;
         }
 
         private bool KeyTrigger()
         {
-            if (X == key.X && Y == key.Y && keyIsLooted == false)
+            if (X == key.X && Y == key.Y && KeyIsLooted == false)
             {
-                keyIsLooted = true;
+                KeyIsLooted = true;
                 return true;
             }
             return false;

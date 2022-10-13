@@ -1,12 +1,11 @@
-﻿
-namespace EscapeFromConsole
+﻿namespace EscapeFromConsole
 {
-    internal class Exit
+    class Exit
     {
-        public int X { get; set; }
-        public int Y { get; set; }
+        public int X { get; private set; }
+        public int Y { get; private set; }
 
-        Room room;
+        readonly Room room;
 
         public Exit(Room room)
         {

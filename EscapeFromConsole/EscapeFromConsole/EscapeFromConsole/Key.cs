@@ -1,12 +1,11 @@
-﻿
-namespace EscapeFromConsole
+﻿namespace EscapeFromConsole
 {
-    internal class Key
+    class Key
     {
-        public int X { get; set; }
-        public int Y { get; set; }
+        public int X { get; private set; }
+        public int Y { get; private set; }
 
-        Room room;
+        readonly Room room;
 
         public Key(Room room)
         {

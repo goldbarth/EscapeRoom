@@ -1,7 +1,6 @@
-﻿
-namespace EscapeFromConsole
+﻿namespace EscapeFromConsole
 {
-    internal class Game
+    static class Game
     {
         public static void Start()
         {
@@ -13,10 +12,10 @@ namespace EscapeFromConsole
             int height = InputCheck(15, 28, "Höhe");
 
             Console.Clear();
-            Init(width, height);
+            Initiate(width, height);
         }
 
-        private static void Init(int width, int height)
+        private static void Initiate(int width, int height)
         {
             Room room = new Room(width, height);
             Key key = new Key(room);
@@ -27,14 +26,54 @@ namespace EscapeFromConsole
             char floorchar = ' ';
             char exitChar = '▓';
             char keyChar = '¥';
-            char playerChar = 'Ð'; 
+            char playerChar = 'Ð';
 
             room.Draw(wallChar, floorchar);
             key.Draw(keyChar);
             exit.Draw(exitChar);
             player.Draw(playerChar);
-            player.Move(playerChar);
-            Console.ReadKey();
+            Update(player, exit, room, playerChar);
+        }
+
+        private static void Update(Player player, Exit exit, Room room, char playerChar)
+        {
+            while (!IsWinning(player, exit, room))
+            {
+                player.Move(playerChar);
+                player.OpenExit();
+            }
+        }
+
+        private static bool IsWinning(Player player, Exit exit, Room room)
+        {
+            if (player.X + 1 == exit.X && player.Y == exit.Y && player.KeyIsLooted)
+            {
+                GameWon(player, room);
+                return true;
+            }
+            return false;
+        }
+
+        private static void GameWon(Player player, Room room)
+        {
+                for (int i = 0; i < 3; i++)
+                {
+                    Console.Beep(600, 350);
+                }
+                Console.SetCursorPosition(player.X, player.Y);
+                Console.Write("...");
+                Console.Write('Ð');
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.SetCursorPosition((room.width / 2) - 12, (room.height / 2) - 5);
+                Console.WriteLine("YOU ESCAPED THE DARKNESS.");
+                Console.SetCursorPosition((room.width / 2) - 12, (room.height / 2) - 4);
+                Console.WriteLine("  NOW YOU´LL ENTER THE");
+                Console.SetCursorPosition((room.width / 2) - 12, (room.height / 2) - 3);
+                Console.WriteLine("        UNKNOWN.");
+                Console.ReadKey();
+                Console.ReadKey();
+                Console.Clear();
+                Menu.Outro();
         }
 
         private static int InputCheck(int minInput, int maxInput, string unit)

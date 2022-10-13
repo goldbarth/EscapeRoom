@@ -1,13 +1,11 @@
-﻿
-namespace EscapeFromConsole
+﻿namespace EscapeFromConsole
 {
-    internal class Program
+    class Program
     {   
         static void Main()
         {
             Console.CursorVisible = false;
-            var menu = new Menu();
-            menu.MainMenu();
+            Menu.MainMenu();
         }
     }
 }

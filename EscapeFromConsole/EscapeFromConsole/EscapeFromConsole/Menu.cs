@@ -1,9 +1,8 @@
-﻿
-namespace EscapeFromConsole
+﻿namespace EscapeFromConsole
 {
-    internal class Menu
+    static class Menu
     {
-        public void MainMenu()
+        public static void MainMenu()
         {
             Console.WriteLine();
             Console.WriteLine("   ██████ ************************** * *  ");
@@ -55,7 +54,7 @@ namespace EscapeFromConsole
 
         }
 
-        public void Outro()
+        public static void Outro()
         {
             Console.WriteLine();
             Console.WriteLine("   ██████ ******YOU ESCAPED THE***** * *  ");
@@ -79,7 +78,7 @@ namespace EscapeFromConsole
             SelectOptions();
         }
 
-        private void Tutorial()
+        private static void Tutorial()
         {
             Console.WriteLine("\n\n       ******** ESCAPE ROOM ********");
             Console.WriteLine("        ──────────────────────────");
@@ -96,7 +95,7 @@ namespace EscapeFromConsole
             SelectOptions();
         }
 
-        private void Quit()
+        private static void Quit()
         {
             Console.WriteLine("\n\n\n   Spiel beenden (J/N)");
             ConsoleKey inputKey = Console.ReadKey().Key;
@@ -121,7 +120,7 @@ namespace EscapeFromConsole
             }
         }
 
-        private void SelectOptions()
+        private static void SelectOptions()
         {
             Console.WriteLine("\n\n\n   1: Main Menu");
             Console.WriteLine("   2: Quit");
