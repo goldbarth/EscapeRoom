@@ -64,7 +64,7 @@
                 Console.Write("...");
                 Console.Write('Ð');
                 Console.ForegroundColor = ConsoleColor.Gray;
-                Console.SetCursorPosition((room.width / 2) - 12, (room.height / 2) - 5);
+                Console.SetCursorPosition((room.width / 2) - 12, (room.height / 2) - 5); // compute the center position for the following text
                 Console.WriteLine("YOU ESCAPED THE DARKNESS.");
                 Console.SetCursorPosition((room.width / 2) - 12, (room.height / 2) - 4);
                 Console.WriteLine("  NOW YOU´LL ENTER THE");
