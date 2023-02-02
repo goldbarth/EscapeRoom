@@ -1,23 +1,23 @@
 ﻿namespace EscapeFromConsole
 {
-    class Key
+    internal class Key
     {
         public int X { get; private set; }
         public int Y { get; private set; }
 
-        readonly Room room;
+        private readonly Room _room;
 
         public Key(Room room)
         {
-            this.room = room;
+            _room = room;
         }
         
         // draws the key char random inside the rectangle as start position
         public void Draw(char key)
         {
-            Random rand = new Random();
-            int randomPositionX = rand.Next(1, room.width);
-            int randomPositionY = rand.Next(1, room.height);
+            var rand = new Random();
+            var randomPositionX = rand.Next(1, _room.Width);
+            var randomPositionY = rand.Next(1, _room.Height);
 
             X = randomPositionX;
             Y = randomPositionY;

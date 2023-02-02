@@ -1,11 +1,12 @@
 ﻿namespace EscapeFromConsole
 {
-    class Program
-    {   
-        static void Main()
+    internal static class Program
+    {
+        private static void Main()
         {
             Console.CursorVisible = false;
-            Menu.MainMenu();
+            var app = new Application();
+            app.Run();
         }
     }
 }

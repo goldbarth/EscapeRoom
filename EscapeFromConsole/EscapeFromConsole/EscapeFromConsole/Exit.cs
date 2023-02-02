@@ -1,24 +1,24 @@
 ﻿namespace EscapeFromConsole
 {
-    class Exit
+    internal class Exit
     {
         public int X { get; private set; }
         public int Y { get; private set; }
 
-        readonly Room room;
+        private readonly Room _room;
 
         public Exit(Room room)
         {
-            this.room = room;
+            _room = room;
         }
 
         // draws the door random on the right wallside
         public void Draw(char exit)
         {
-            Random rand = new Random();
-            int randomPositionY = rand.Next(1, room.height - 1);
+            var rand = new Random();
+            var randomPositionY = rand.Next(1, _room.Height - 1);
 
-            X = room.width + 1;
+            X = _room.Width + 1;
             Y = randomPositionY;
 
             Console.ForegroundColor = ConsoleColor.Gray;
