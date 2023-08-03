@@ -14,7 +14,7 @@
         public readonly char WallChar = '█';
         public readonly char ExitChar = '█';
 
-        private bool _isGameWon;
+        private bool _gameIsWon;
 
         public void Start()
         {
@@ -23,7 +23,7 @@
             Initialize(room);
         }
 
-        private static void DrawPromptCommand()
+        private void DrawPromptCommand()
         {
             Console.WriteLine("\n\n       ******** ESCAPE ROOM ********");
             Console.WriteLine("\n\n\n   Gib die Höhe und Breite des Raumes ein.");
@@ -49,19 +49,18 @@
             _exit = new Exit(_room);
             _player = new Player(this, _room, _key);
 
-            _room.Draw(WallChar, FloorChar);
-            _key.DrawKeyPosition(KeyChar);
-            _exit.DrawExitPosition(ExitChar);
+            _room.DrawRoom(WallChar, FloorChar);
+            _key.DrawPosition(KeyChar);
+            _exit.DrawPosition(ExitChar);
             _player.DrawStartPosition(PlayerChar);
 
             GameLoop();
-            Console.ReadKey();
         }
 
         private void GameLoop()
         {
             
-            while (!_isGameWon)
+            while (!_gameIsWon)
             {
                 _player?.Move(PlayerChar);
                 CheckIfExitOpens();
@@ -83,7 +82,7 @@
 
         private void InitializeGameEnd()
         {
-            _isGameWon = true;
+            _gameIsWon = true;
             
             PlayWinSound();
             PlayAnimation();
@@ -91,7 +90,7 @@
             DrawWinScreen();
         }
 
-        private static void DrawWinScreen()
+        private void DrawWinScreen()
         {
             new Application().Outro();
         }
@@ -119,7 +118,7 @@
             Console.ForegroundColor = ConsoleColor.Gray;
         }
 
-        private static void PlayWinSound()
+        private void PlayWinSound()
         {
             for (int beepIndex = 0; beepIndex < 3; beepIndex++)
                 Console.Beep(600, 350);
@@ -141,7 +140,7 @@
             _player?.DrawPosition(_exit!.X, _exit.Y, FloorChar);
         }
 
-        private static int InputValidation(int minInput, int maxInput, string unit)
+        private int InputValidation(int minInput, int maxInput, string unit)
         {
             Console.Write($"\n   {unit}({minInput}-{maxInput}): ");
             var input = Console.ReadLine();

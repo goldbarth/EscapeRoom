@@ -12,13 +12,13 @@
             _room = room;
         }
         
-        public void DrawKeyPosition(char key)
+        public void DrawPosition(char key)
         {
             SetRandomPosition();
-            DrawPosition(key);
+            DrawKey(key);
         }
 
-        private void DrawPosition(char key)
+        private void DrawKey(char key)
         {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.SetCursorPosition(X, Y);

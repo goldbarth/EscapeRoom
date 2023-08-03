@@ -19,9 +19,12 @@
 
         public void DrawStartPosition(char playerChar)
         {
-            if (X == _key.X && Y == _key.Y) return;
-            GetRandomPosition();
-            SetPosition(playerChar);
+            do
+            {
+                GetRandomPosition();
+                SetPosition(playerChar);
+            } while (PlayerPositionIsKeyPosition());
+            
         }
 
         public void Move(char playerChar)
@@ -62,6 +65,11 @@
             DrawPosition(X, Y, playerChar);
         }
         
+        private bool PlayerPositionIsKeyPosition()
+        {
+            return X == _key.X && Y == _key.Y;
+        }
+        
         private void GetRandomPosition()
         {
             var rand = new Random();
@@ -81,10 +89,15 @@
 
         public void DrawPosition(int x, int y, char tile)
         {
-            if (x <= 0 || y <= 0) return;
+            if (CheckIfNewPositionIsWall(x, y)) return;
             
             RepaintEnvironment(x, y);
             DrawNewPosition(x, y, tile);
+        }
+
+        private bool CheckIfNewPositionIsWall(int x, int y)
+        {
+            return x <= 0 || y <= 0;
         }
 
         private static void DrawNewPosition(int x, int y, char tile)
@@ -122,7 +135,7 @@
         
         public bool LootKey()
         {
-            if (X == _key.X && Y == _key.Y && KeyIsLooted == false)
+            if (PlayerPositionIsKeyPosition() && !KeyIsLooted)
             {
                 KeyIsLooted = true;
                 return true;
@@ -131,7 +144,7 @@
             return false;
         }
 
-        private static void PlaySound()
+        private void PlaySound()
         {
             new Thread(() => Console.Beep(120, 200)).Start();
         }

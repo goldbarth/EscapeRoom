@@ -81,25 +81,25 @@
             }
         }
 
-        private static void DrawGameOptions()
+        private void DrawGameOptions()
         {
             Console.WriteLine("   1: Spiel starten");
             Console.WriteLine("   2: Spiel beenden");
             Console.WriteLine("   3: Tutorial");
         }
 
-        private static void QuitGamePromptCommand()
+        private void QuitGamePromptCommand()
         {
             Console.WriteLine("\n\n\n   Spiel beenden (J/N)");
         }
 
         private static void DrawOptions()
         {
-            Console.WriteLine("\n\n\n   1: Titelbildschirm");
+            Console.WriteLine("\n\n\n   1: Spiel starten");
             Console.WriteLine("   2: Spiel beenden");
         }
 
-        private static ConsoleKey GetInputOption(Screen screen)
+        private ConsoleKey GetInputOption(Screen screen)
         {
             var inputKey = GetInputKey();
             var valid = false;
@@ -119,7 +119,7 @@
             return InputValidation(screen, valid, inputKey);
         }
 
-        private static ConsoleKey InputValidation(Screen screen, bool valid, ConsoleKey inputKey)
+        private ConsoleKey InputValidation(Screen screen, bool valid, ConsoleKey inputKey)
         {
             var validInput = valid;
             var inputOptions = screen == Screen.Title ? "1: Spiel starten, 2: Spiel beenden, 3: Tutorial" : "1: Spiel starten, 2: Spiel beenden";
@@ -133,7 +133,7 @@
             return inputKey;
         }
         
-        private static ConsoleKey QuitGameValidation()
+        private ConsoleKey QuitGameValidation()
         {
             var inputKey = GetInputKey();
             var valid = inputKey is ConsoleKey.J or ConsoleKey.N;
@@ -147,12 +147,12 @@
             return inputKey;
         }
 
-        private static ConsoleKey GetInputKey()
+        private ConsoleKey GetInputKey()
         {
             return Console.ReadKey().Key;
         }
 
-        private static void DrawTitleScreen()
+        private void DrawTitleScreen()
         {
             Console.WriteLine();
             Console.WriteLine("   ██████ ************************** * *  ");
@@ -174,7 +174,7 @@
             Console.WriteLine();
         }
 
-        private static void DrawOutroScreen()
+        private void DrawOutroScreen()
         {
             Console.WriteLine();
             Console.WriteLine("   ██████ ******YOU ESCAPED THE***** * *  ");
@@ -196,7 +196,7 @@
             Console.WriteLine();
         }
 
-        private static void DrawTutorial()
+        private void DrawTutorial()
         {
             Console.WriteLine("\n\n       ******** ESCAPE ROOM ********");
             Console.WriteLine("        ──────────────────────────");

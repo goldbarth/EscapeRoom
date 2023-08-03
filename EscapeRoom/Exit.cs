@@ -12,7 +12,7 @@
             _room = room;
         }
         
-        public void DrawExitPosition(char exit)
+        public void DrawPosition(char exit)
         {
             SetRandomPosition();
             DrawExit(exit);

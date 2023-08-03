@@ -14,8 +14,8 @@
             _room = new int[width, height];
         }
 
-        // draws a rectangle, first part wall, second part floor
-        public void Draw(char wallChar, char floorChar)
+        // draws a rectangle, first part walls(border), second part floor(inside the room)
+        public void DrawRoom(char wallChar, char floorChar)
         {
             for (int y = -1; y < Height + 1; y++)
             {
