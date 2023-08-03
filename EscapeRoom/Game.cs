@@ -1,6 +1,6 @@
 ﻿namespace EscapeFromConsole
 {
-    internal class Game
+    public class Game
     {
         private Player? _player;
         private Room? _room;
@@ -14,17 +14,13 @@
         public readonly char WallChar = '█';
         public readonly char ExitChar = '█';
 
-        private bool _isWon = false;
-        private bool _keyIsLooted = false;
-
+        private bool _isGameWon;
 
         public void Start()
         {
             DrawPromptCommand();
-            var (width, height) = GetRoomSize();
-
-            Console.Clear();
-            Init(width, height);
+            var room = GetRoomSize();
+            Initialize(room);
         }
 
         private static void DrawPromptCommand()
@@ -35,64 +31,75 @@
 
         private (int width, int height) GetRoomSize()
         {
-            var heightName = "Breite";
-            var widthName = "Höhe";
-
-            // min/max input for width           
-            var width = InputCheck(30, 60, heightName);
-            // min/max input for height           
-            var height = InputCheck(15, 28, widthName);
+            const string heightName = "Breite";
+            const string widthName = "Höhe";
+            
+            var width = InputValidation(30, 60, heightName);
+            var height = InputValidation(15, 28, widthName);
+            
+            Console.Clear();
 
             return (width, height);
-
         }
 
-        private void Init(int width, int height)
+        private void Initialize((int width, int height) room)
         {
-            _room = new Room(width, height);
-
+            _room = new Room(room.width, room.height);
             _key = new Key(_room);
             _exit = new Exit(_room);
             _player = new Player(this, _room, _key);
 
             _room.Draw(WallChar, FloorChar);
-            _key.Draw(KeyChar);
-            _exit.Draw(ExitChar);
-            _player.Draw(PlayerChar);
+            _key.DrawKeyPosition(KeyChar);
+            _exit.DrawExitPosition(ExitChar);
+            _player.DrawStartPosition(PlayerChar);
 
             GameLoop();
+            Console.ReadKey();
         }
 
         private void GameLoop()
         {
             
-            while (!_isWon)
+            while (!_isGameWon)
             {
                 _player?.Move(PlayerChar);
-                CheckIfExitCanOpen();
+                CheckIfExitOpens();
                 CheckIfPlayerExited();
             }
         }
 
-        private void CheckIfPlayerExited()
+        private void CheckIfExitOpens()
         {
-            if (IsPlayerAtExit() && _player.KeyIsLooted)
-                ShowWinScreen();
+            if(HasPlayerKeyLooted())
+                OpenExit();
         }
 
-        private void ShowWinScreen()
+        private void CheckIfPlayerExited()
         {
-            //_canMove = false;
-            var app = new Application();
-            for (int beepIndex = 0; beepIndex < 3; beepIndex++)
-                Console.Beep(600, 350);
-            
+            if (IsPlayerAtExit() && _player!.KeyIsLooted)
+                InitializeGameEnd();
+        }
 
-            Console.SetCursorPosition(_player.X, _player.Y);
-            Console.Write("...");
-            Console.Write('Ð');
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.SetCursorPosition((_room.Width / 2) - 12, (_room.Height / 2) - 5);
+        private void InitializeGameEnd()
+        {
+            _isGameWon = true;
+            
+            PlayWinSound();
+            PlayAnimation();
+            GameEndScreen();
+            DrawWinScreen();
+        }
+
+        private static void DrawWinScreen()
+        {
+            new Application().Outro();
+        }
+
+        private void GameEndScreen()
+        {
+            // Set the text compared to the room size in the middle of the room
+            Console.SetCursorPosition((_room!.Width / 2) - 12, (_room.Height / 2) - 5);
             Console.WriteLine("YOU ESCAPED THE DARKNESS.");
             Console.SetCursorPosition((_room.Width / 2) - 12, (_room.Height / 2) - 4);
             Console.WriteLine("  NOW YOU´LL ENTER THE");
@@ -102,31 +109,39 @@
             Console.WriteLine("     Press any Key...");
             Console.ReadKey();
             Console.Clear();
-            app.Outro();
         }
 
-        #region Bools
+        private void PlayAnimation()
+        {
+            Console.SetCursorPosition(_player!.X, _player.Y);
+            Console.Write("...");
+            Console.Write('Ð');
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
+
+        private static void PlayWinSound()
+        {
+            for (int beepIndex = 0; beepIndex < 3; beepIndex++)
+                Console.Beep(600, 350);
+        }
 
         public bool IsPlayerAtExit()
         {
-            return _player?.X + 1 == _exit.X && _player?.Y == _exit.Y;
+            return _player?.X + 1 == _exit?.X && _player?.Y == _exit?.Y;
         }
 
-        private void CheckIfExitCanOpen()
+        private bool HasPlayerKeyLooted()
         {
-            if (_player.LootKey() && _player.KeyIsLooted == true)
-                OpenExit();
+            return _player!.LootKey() && _player.KeyIsLooted;
         }
 
         private void OpenExit()
         {
             Console.Beep(450, 200);
-            _player?.Position(_exit.X, _exit.Y, FloorChar);
+            _player?.DrawPosition(_exit!.X, _exit.Y, FloorChar);
         }
 
-        #endregion
-
-        private static int InputCheck(int minInput, int maxInput, string unit)
+        private static int InputValidation(int minInput, int maxInput, string unit)
         {
             Console.Write($"\n   {unit}({minInput}-{maxInput}): ");
             var input = Console.ReadLine();
@@ -142,13 +157,5 @@
 
             return value;
         }
-        
-        private IEnumerable<bool> Infinite()  
-        {  
-            while (true)  
-            {  
-                yield return true;  
-            }  
-        }  
     }
 }

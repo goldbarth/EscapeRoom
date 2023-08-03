@@ -1,6 +1,6 @@
 ﻿namespace EscapeFromConsole
 {
-    internal class Key
+    public class Key
     {
         public int X { get; private set; }
         public int Y { get; private set; }
@@ -12,8 +12,20 @@
             _room = room;
         }
         
-        // draws the Key char random inside the rectangle as start position
-        public void Draw(char key)
+        public void DrawKeyPosition(char key)
+        {
+            SetRandomPosition();
+            DrawPosition(key);
+        }
+
+        private void DrawPosition(char key)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.SetCursorPosition(X, Y);
+            Console.Write(key);
+        }
+
+        private void SetRandomPosition()
         {
             var rand = new Random();
             var randomPositionX = rand.Next(1, _room.Width);
@@ -21,10 +33,6 @@
 
             X = randomPositionX;
             Y = randomPositionY;
-
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.SetCursorPosition(X, Y);
-            Console.Write(key);
         }
     }
 }

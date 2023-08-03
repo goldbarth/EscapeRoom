@@ -1,6 +1,6 @@
 ﻿namespace EscapeFromConsole
 {
-    internal class Room
+    public class Room
     {
         public readonly int Width;
         public readonly int Height;
@@ -30,7 +30,7 @@
                     else 
                     {
                         // second
-                        int current = _room[x, y];
+                        var current = _room[x, y];
                         if (current == 0)
                         {
                             Console.Write(floorChar);
